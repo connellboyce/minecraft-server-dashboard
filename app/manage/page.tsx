@@ -7,8 +7,8 @@ import ScriptableMinecraftButton from "@/components/ScriptableMinecraftButton";
 
 export default function Manage() {
     const [isLoading, setIsLoading] = useState(true);
-    const [isStarting, setIsStarting] = useState(false);
-    const [isStopping, setIsStopping] = useState(false);
+    // const [isStarting, setIsStarting] = useState(false);
+    // const [isStopping, setIsStopping] = useState(false);
     const [serverUp, setServerUp] = useState(false);
     const [playerCount, setPlayerCount] = useState(0);
 
@@ -37,8 +37,8 @@ export default function Manage() {
             });
             const result = await response.text();
             console.log(result);
-            setIsStarting(true);
-            setIsStopping(false);
+            // setIsStarting(true);
+            // setIsStopping(false);
             alert("Server is being started. Please give it some time to take effect.");
         } catch (error) {
             console.error('Error starting server:', error);
@@ -53,8 +53,8 @@ export default function Manage() {
             });
             const result = await response.text();
             console.log(result);
-            setIsStopping(true);
-            setIsStarting(false);
+            // setIsStopping(true);
+            // setIsStarting(false);
             alert("Server is being stopped. Please give it some time to take effect.");
         } catch (error) {
             console.error('Error stopping server:', error);
