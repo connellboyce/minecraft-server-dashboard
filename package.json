@@ -1,6 +1,7 @@
 {
   "name": "minecraft-server-dashboard",
   "version": "0.1.0",
+  "description": "A dashboard to visualize and manage my Minecraft server",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
