@@ -16,7 +16,7 @@ const handler = NextAuth({
             version: "2.0",
             authorization: {
                 url: "https://auth.connellboyce.com/oauth2/authorize",
-                params: { response_type: "code", scope: "openid profile email" },
+                params: { response_type: "code", scope: "openid profile email urn:cb:scope:minecraft:uptime#write" },
             },
             token: "https://auth.connellboyce.com/oauth2/token",
             userinfo: "https://auth.connellboyce.com/userinfo",
