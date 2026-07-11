@@ -8,6 +8,18 @@ const handler = NextAuth({
     session: {
         strategy: 'jwt',
     },
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.accessToken = (user as { accessToken?: string }).accessToken;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            (session as { accessToken?: string }).accessToken = token.accessToken as string | undefined;
+            return session;
+        },
+    },
     providers: [
         {
             id: "connellboyce",
@@ -16,7 +28,7 @@ const handler = NextAuth({
             version: "2.0",
             authorization: {
                 url: "https://auth.connellboyce.com/oauth2/authorize",
-                params: { response_type: "code", scope: "openid profile email urn:cb:scope:minecraft:uptime#write" },
+                params: { response_type: "code", scope: "openid profile email urn:cb:scope:minecraft:server:state#read urn:cb:scope:minecraft:server:state#write" },
             },
             token: "https://auth.connellboyce.com/oauth2/token",
             userinfo: "https://auth.connellboyce.com/userinfo",
