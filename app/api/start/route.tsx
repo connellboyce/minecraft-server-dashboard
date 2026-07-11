@@ -1,15 +1,23 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
 
-export async function POST() {
+export async function POST(req: NextRequest) {
     const baseUrl = process.env.SERVER_STATE_MANAGER_BASE_URL;
-    const response = await fetch(baseUrl + '/start', {
-        method: 'POST',
+    const token = await getToken({ req });
+
+    const response = await fetch(baseUrl + '/api/v2/server', {
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token?.accessToken}`,
         },
+        body: JSON.stringify({ up: true }),
     });
 
-    const result = await response.text();
+    const result = await response.json();
 
-    return NextResponse.json({message: result});
+    return NextResponse.json({
+        up: result.minecraft.up,
+        players: result.minecraft.players,
+    });
 }
