@@ -14,6 +14,15 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({ up: true }),
     });
 
+    if (!response.ok) {
+        const errorBody = await response.text();
+        console.error('Server state manager error:', response.status, {
+            body: errorBody,
+            wwwAuthenticate: response.headers.get('www-authenticate'),
+        });
+        return NextResponse.json({ error: 'Failed to start server' }, { status: response.status });
+    }
+
     const result = await response.json();
 
     return NextResponse.json({
