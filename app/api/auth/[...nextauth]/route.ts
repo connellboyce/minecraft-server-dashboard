@@ -7,9 +7,6 @@ const handler = NextAuth({
     secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: 'jwt',
-        // Matches the connellboyce.com access token's 1-hour lifetime, so the
-        // NextAuth session expires alongside it instead of outliving it and
-        // replaying a dead access token for up to the default 30-day session.
         maxAge: 60 * 60,
     },
     callbacks: {
