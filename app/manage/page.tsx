@@ -3,6 +3,7 @@
 import MinecraftServerListItem from "@/components/MinecraftServerListItem";
 import MinecraftButton from "@/components/MinecraftButton";
 import {useEffect, useState} from "react";
+import {signOut} from "next-auth/react";
 import ScriptableMinecraftButton from "@/components/ScriptableMinecraftButton";
 
 export default function Manage() {
@@ -12,10 +13,19 @@ export default function Manage() {
     const [serverUp, setServerUp] = useState(false);
     const [playerCount, setPlayerCount] = useState(0);
 
+    const handleUnauthorized = (response: Response) => {
+        if (response.status === 401 || response.status === 403) {
+            signOut({ callbackUrl: '/manage' });
+            return true;
+        }
+        return false;
+    };
+
     useEffect(() => {
         const fetchStatus = async () => {
             try {
                 const response = await fetch('/api/status');
+                if (handleUnauthorized(response)) return;
                 const result = await response.json();
                 console.log(result);
                 setServerUp(result.up);
@@ -35,6 +45,7 @@ export default function Manage() {
             const response = await fetch('/api/start', {
                 method: "POST",
             });
+            if (handleUnauthorized(response)) return;
             const result = await response.text();
             console.log(result);
             // setIsStarting(true);
@@ -51,6 +62,7 @@ export default function Manage() {
             const response = await fetch('/api/stop', {
                 method: "POST",
             });
+            if (handleUnauthorized(response)) return;
             const result = await response.text();
             console.log(result);
             // setIsStopping(true);
